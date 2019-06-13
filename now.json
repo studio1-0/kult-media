@@ -1,4 +1,8 @@
 {
+  "alias": "kult-media",
   "name": "kult-media",
-  "version": 2
+  "version": 2,
+  "builds": [
+    { "src": "next.config.js", "use": "@now/next" }
+  ]
 }
