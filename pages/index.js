@@ -1,91 +1,74 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Link from 'next/link';
-import Head from '../components/head';
-import Nav from '../components/nav';
+import Card from '../components/card';
 
-const Home = () => (
-  <div>
-    <Head title="Home" />
-    <Nav />
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+const Home = () => {
+  const cards = [
+    { type: 'ANIM', preview: 'https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/c3680581391631.5d050d825ed4b.jpg'},
+    { type: 'SHORT', preview: 'https://cdn.dribbble.com/users/1322388/screenshots/6647930/fortress.jpg' },
+    { type: 'AD', preview: 'https://www.danstapub.com/wp-content/uploads/2017/05/dans-ta-pub-lacoste-timeless-1920x1080.png' },
+    { type: 'MUSIC', preview: 'https://phototrend.fr/wp-content/uploads/2017/09/cilp-orelsan-basique-drone-1-759x500.jpg' }
+  ].map(card => {
+    card.key = `card-${card.type}`
+    return card
+  });
 
-      <div className="row">
-        <Link href="https://github.com/zeit/next.js#getting-started">
-          <a className="card">
-            <h3>Getting Started &rarr;</h3>
-            <p>Learn more about Next on Github and in their examples</p>
-          </a>
-        </Link>
-        <Link href="https://open.segment.com/create-next-app">
-          <a className="card">
-            <h3>Examples &rarr;</h3>
-            <p>
-              Find other example boilerplates on the{' '}
-              <code>create-next-app</code> site
-            </p>
-          </a>
-        </Link>
-        <Link href="https://github.com/segmentio/create-next-app">
-          <a className="card">
-            <h3>Create Next App &rarr;</h3>
-            <p>Was this tool helpful? Let us know how we can improve it</p>
-          </a>
-        </Link>
-      </div>
+  return (
+    <div className="cards">
+      {cards.map(({ key, type, preview }) => (
+        <li key={key}>
+          <Card article={''}
+            type={type}
+            preview={preview}
+          />
+        </li>
+      ))}
+
+      <style jsx>{`
+        .cards {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-evenly;
+          max-width: 1000px;
+        }
+        .cards li {
+          display: flex;
+          flex-direction: column;
+          width: 415px;
+          height: 350px;
+          margin: 15px;
+          border: 1px solid lightgray;
+          border-radius: 8px;
+          transition: all .2s ease-in-out; 
+        }
+        .cards li:hover {
+          cursor: pointer;
+          transform: scale(1.05); 
+        }
+        .cards li:nth-child(2) {
+          height: 420px;
+          width: 290px;
+        }
+        .cards li:nth-child(3) {
+          height: 420px;
+          width: 350px;
+        }
+        .cards li:nth-child(4) {
+          width: 450px;
+          height: 300px;
+        }
+      `}</style>
     </div>
+  )
+}
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
+const mapStateToProps = state => {
+  return {
+    articles: state.articles
+  }
+};
 
-export default Home;
+export default connect(mapStateToProps)(Home);

@@ -2,9 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 
 const links = [
-  { href: 'https://github.com/segmentio/create-next-app', label: 'Github' }
+  { href: 'https://github.com/segmentio/create-next-app', label: 'facebook' },
+  { href: 'https://github.com/segmentio/create-next-app', label: 'instagram' },
 ].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
+  link.key = `nav-link-${link.label}`
   return link
 });
 
@@ -13,44 +14,45 @@ const Nav = () => (
     <ul>
       <li>
         <Link prefetch href="/">
-          <a>Home</a>
+          <span className="profile"></span>
         </Link>
       </li>
-      <ul>
-        {links.map(({ key, href, label }) => (
-          <li key={key}>
-            <Link href={href}>
-              <a>{label}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <li><span className="menu"></span></li>
+      {links.map(({ key, href, label }) => (
+        <li key={key}>
+          <Link href={href}>
+            <span className={label}></span>
+          </Link>
+        </li>
+      ))}
     </ul>
 
     <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
       nav {
-        text-align: center;
-      }
-      ul {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
       }
-      nav > ul {
-        padding: 4px 16px;
+      nav ul {
+        list-style: none;
       }
-      li {
-        display: flex;
-        padding: 6px 8px;
+      nav ul li {
+        margin: 10px;
       }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
+      .facebook {
+        display:flex;
+        width: 40px;
+        height: 40px;
+        background-image: url('/static/facebook.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      .instagram {
+        display:flex;
+        width: 40px;
+        height: 40px;
+        background-image: url('/static/instagram.svg');
+        background-repeat: no-repeat;
+        background-position: center;
       }
     `}</style>
   </nav>
