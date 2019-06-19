@@ -10,7 +10,8 @@ const theme = {
       linkHover: '#0d8ecf',
       border: '#dddddd',
       warning: '#fff3cd',
-      success: '#d4edda'
+      success: '#d4edda',
+      action: '#FD7FAC'
     }
 }
   

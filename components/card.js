@@ -3,9 +3,6 @@ import { TYPES } from '../config';
 
 const Card = props => {
     let artifacts = '';
-    const onCardClick = (event) => {
-        console.log("CLICK: ", event);
-    }
 
     switch(props.type) {
         case TYPES.ANIM: artifacts = ''; break;
@@ -17,7 +14,7 @@ const Card = props => {
     
     return (
         props.article ?
-        <div className="card-article" onClick={onCardClick}>
+        <div className="card-article" onClick={props.onCardClick}>
             <img src={props.preview}></img>
             <h1>{props.article.director}</h1>
             <h2>{props.article.title}</h2>
@@ -28,7 +25,7 @@ const Card = props => {
                 }
             `}</style>
         </div> :
-        <div className="card-video" onClick={onCardClick}>
+        <div className="card-video" onClick={props.onCardClick}>
             <span className="play"></span>
             <style jsx>{`
                 .card-video {

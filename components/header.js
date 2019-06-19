@@ -5,12 +5,18 @@ import Logo from './logo';
 const Header = () => (
   <div className="header">
     <Link prefetch href="/">
-      <Logo />
+      <span><Logo /></span>
     </Link>
 
     <style jsx>{`
       .header {
-        padding: 15px;
+        max-width: 150px;
+        padding: 15px 0 0 15px;
+        z-index: 2;
+      }
+
+      .header span:hover {
+        cursor: pointer;
       }
     `}</style>
   </div>
