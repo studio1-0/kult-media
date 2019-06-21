@@ -67,6 +67,39 @@ const Modal = props => {
                 .content {
                     width: 100%;
                 }
+                .video-mode:before {
+                    content: "";
+                    position: absolute;
+                    background-image: url('/static/artifacts/music.svg');
+                    background-size: 70px;
+                    background-position: right bottom;
+                    background-repeat: no-repeat;
+                    padding: 60px 25vw;
+                    margin: 0 0 0 -25px;
+                }
+                .video-mode:after {
+                    content: "";
+                    position: absolute;
+                    background-image: url('/static/artifacts/music.svg'), url('/static/artifacts/music.svg');
+                    background-size: 200px, 70px;
+                    background-position: left bottom, right bottom;
+                    background-repeat: no-repeat;
+                    padding: 100px 35vw;
+                    margin: -180px -115px;
+                    z-index: -1;
+                }
+                .anim {
+                    background-image: ${theme.objects.anim}, ${theme.objects.anim};
+                }
+                .ad {
+                    background-image: ${theme.objects.ad}, ${theme.objects.ad};
+                }
+                .short {
+                    background-image: ${theme.objects.short}, ${theme.objects.short};
+                }
+                .music {
+                    background-image: ${theme.objects.music}, ${theme.objects.music};
+                }
                 span {
                     display:flex;
                     background-repeat: no-repeat;
@@ -85,6 +118,25 @@ const Modal = props => {
                 }
                 .close:hover {
                     cursor: pointer;
+                }
+                .close:before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: 85px;
+                    margin-left: -7px;
+                    top: 28px;
+                    border-top: solid 4px ${theme.colors.lightBlue};
+                }
+                .close:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: 160px;
+                    height: 160px;
+                    margin: -15px 0 0 -40px;
+                    border-radius: 50%;
+                    background-color: ${theme.colors.shadow};
                 }
                 h1 {
                     margin-top: 0;

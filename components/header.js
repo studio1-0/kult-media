@@ -22,7 +22,7 @@ const Header = () => (
       span:after {
         content: 'to creativity and beyond';
         position: absolute;
-        margin-left: 20px;
+        margin: 35px 0 0 20px;
       }
     `}</style>
   </div>

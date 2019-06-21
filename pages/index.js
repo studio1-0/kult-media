@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Card from '../components/card';
 import Modal from '../components/modal';
+import theme from '../styles/theme';
 
 
 const Home = (props) => {
@@ -85,18 +86,56 @@ const Home = (props) => {
             margin: 15px;
             border-radius: 8px;
             transition: all .2s ease-in-out; 
+            z-index: 0;
           }
           .cards li:hover {
             cursor: pointer;
             transform: scale(1.05);
           }
-          .cards li:before {
+          .cards li:hover:before {
             content: "";
-            display: flex;
-            background-image: url('/static/artifacts/music.svg');
-            background-repeat: repeat;
-            position: relative;
-            left: -5px;
+            position: absolute;
+            background-size: 30px, 70px;
+            background-position: left 20px, right top;
+            background-repeat: no-repeat;
+            padding: 50px 175px;
+            margin: -25px;
+          }
+          .cards li:nth-child(1):hover:before {
+            background-image: ${theme.objects.anim}, ${theme.objects.anim};
+          }
+          .cards li:nth-child(2):hover:before {
+              background-image: ${theme.objects.ad}, ${theme.objects.ad};
+          }
+          .cards li:nth-child(3):hover:before {
+              background-image: ${theme.objects.short}, ${theme.objects.short};
+          }
+          .cards li:nth-child(4):hover:before {
+              background-image: ${theme.objects.music}, ${theme.objects.music};
+          }
+          .cards li:hover:after {
+            content: "";
+            position: absolute;
+            background-size: 50px, 100px;
+            background-position: left bottom, right bottom;
+            background-repeat: no-repeat;
+            padding: 175px 210px;
+            margin: 0 0 0 -25px;
+          }
+          .cards li:nth-child(1):hover:after {
+            padding: 185px 250px;
+            background-image: ${theme.objects.anim}, ${theme.objects.anim};
+          }
+          .cards li:nth-child(2):hover:after {
+            background-image: ${theme.objects.ad}, ${theme.objects.ad};
+          }
+          .cards li:nth-child(3):hover:after {
+            padding: 220px 230px;
+            background-image: ${theme.objects.short}, ${theme.objects.short};
+          }
+          .cards li:nth-child(4):hover:after {
+            padding: 170px 270px;
+            background-image: ${theme.objects.music}, ${theme.objects.music};
           }
           .cards li:nth-child(2) {
             height: 420px;
