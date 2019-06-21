@@ -30,6 +30,7 @@ const Layout = props => {
             color: ${theme.colors.text};
             background-color: ${theme.colors.background};
             font-family: sans-serif;
+            text-transform: uppercase;
           }
         `}</style>
       </Fragment>

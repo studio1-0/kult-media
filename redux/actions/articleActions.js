@@ -12,16 +12,9 @@ const register = ({ firstname, lastname, mobile_no, email_id, password, confirm_
     axios.post(`${API}/${type}`, {firstname, lastname, mobile_no, email_id, password, confirm_password })
       .then((response) => {
         Router.push('/signin');
-        console.log(response.data.meta.message);
       })
       .catch((err) => {
         switch (error.response.status) {
-          case 422:
-            alert(error.response.data.meta.message);
-            break;
-          case 401:
-            alert(error.response.data.meta.message);
-            break;
           case 500:
             alert('Interval server error! Try again!');
             break;
@@ -34,10 +27,16 @@ const register = ({ firstname, lastname, mobile_no, email_id, password, confirm_
 };
 
 export function addArticle(payload) {
-  return { type: AUTHENTICATE, payload };
+  return { type: GET_ARTICLES, payload };
 }
 
 export function getArticles() {
+  return (dispatch, getState) => {
+    
+  };
+}
+
+export function setActiveTypeAction() {
   return (dispatch, getState) => {
     
   };

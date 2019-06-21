@@ -1,14 +1,14 @@
-<svg width="43" height="48" viewBox="0 0 43 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_f)">
-<rect x="9.33325" y="29.9795" width="24" height="1.53061" rx="0.765306" fill="white"/>
-<rect x="9.33325" y="14.6733" width="24" height="1.53061" rx="0.765306" fill="white"/>
-<rect x="9.33325" y="22.3264" width="24" height="1.53061" rx="0.765306" fill="white"/>
+<rect x="8" y="21" width="18" height="1" rx="0.5" fill="white"/>
+<rect x="8" y="11" width="18" height="1" rx="0.5" fill="white"/>
+<rect x="8" y="16" width="18" height="1" rx="0.5" fill="white"/>
 </g>
-<rect x="9.33325" y="29.9795" width="24" height="1.53061" rx="0.765306" fill="white"/>
-<rect x="9.33325" y="14.6733" width="24" height="1.53061" rx="0.765306" fill="white"/>
-<rect x="9.33325" y="22.3264" width="24" height="1.53061" rx="0.765306" fill="white"/>
+<rect x="8" y="21" width="18" height="1" rx="0.5" fill="white"/>
+<rect x="8" y="11" width="18" height="1" rx="0.5" fill="white"/>
+<rect x="8" y="16" width="18" height="1" rx="0.5" fill="white"/>
 <defs>
-<filter id="filter0_f" x="0.333252" y="0.489746" width="42" height="46.7347" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_f" x="0" y="0" width="34" height="34" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
 <feGaussianBlur stdDeviation="2.5" result="effect1_foregroundBlur"/>

@@ -18,6 +18,12 @@ const Header = () => (
       .header span:hover {
         cursor: pointer;
       }
+
+      span:after {
+        content: 'to creativity and beyond';
+        position: absolute;
+        margin-left: 20px;
+      }
     `}</style>
   </div>
 )

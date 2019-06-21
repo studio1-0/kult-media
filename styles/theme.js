@@ -11,7 +11,8 @@ const theme = {
       border: '#dddddd',
       warning: '#fff3cd',
       success: '#d4edda',
-      action: '#FD7FAC'
+      action: '#FD7FAC',
+      lightBlue: 'rgba(13, 56, 251, 0.1)'
     }
 }
   

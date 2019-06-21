@@ -38,6 +38,12 @@ const Card = props => {
                     background-size: cover;
                     border-radius: 8px;
                 }
+                .card-video:after {
+                    height:400px;
+                    width:400px;
+                    margin: 200px;
+                    background: url('/static/artifacts/music.svg') repeat-y top left;
+                  }
                 .play {
                     display:flex;
                     width: 80px;

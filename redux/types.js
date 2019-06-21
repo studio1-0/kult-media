@@ -1,1 +1,2 @@
 export const GET_ARTICLES = 'GET_ARTICLES';
+export const SET_ACTIVE_TYPE = 'SET_ACTIVE_TYPE';
