@@ -1,5 +1,5 @@
-import authActions from './articleActions';
+import * as articleActions from './articleActions';
 
 export default {
-  ...authActions,
+  articleActions
 };

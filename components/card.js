@@ -1,31 +1,12 @@
 import React from 'react';
-import { TYPES } from '../config';
 
 const Card = props => {
-    let artifacts = '';
-
-    switch(props.type) {
-        case TYPES.ANIM: artifacts = ''; break;
-        case TYPES.AD: artifacts = ''; break;
-        case TYPES.SHORT: artifacts = ''; break;
-        case TYPES.MUSIC: artifacts = ''; break;
-        default: artifacts = null;
+    const onClick = () => {
+        props.onCardClick(props.article);
     }
-    
+
     return (
-        props.article ?
-        <div className="card-article" onClick={props.onCardClick}>
-            <img src={props.preview}></img>
-            <h1>{props.article.director}</h1>
-            <h2>{props.article.title}</h2>
-    
-            <style jsx>{`
-                .card-article {
-                    
-                }
-            `}</style>
-        </div> :
-        <div className="card-video" onClick={props.onCardClick}>
+        <div className="card-video" onClick={onClick}>
             <span className="play"></span>
             <style jsx>{`
                 .card-video {

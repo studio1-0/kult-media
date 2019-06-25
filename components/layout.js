@@ -24,12 +24,13 @@ const Layout = props => {
             display: flex;
             height: 100%;
             justify-content: space-between;
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 1.8;
             color: ${theme.colors.text};
             background-color: ${theme.colors.background};
-            font-family: sans-serif;
+            font-family: 'Chivo', sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 21px;
             text-transform: uppercase;
           }
         `}</style>

@@ -1,8 +1,13 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
+import { connect } from 'react-redux';
 import styled, { keyframes } from "styled-components";
+import ShortLogo from '../static/logo/short.svg';
+import AdLogo from '../static/logo/ad.svg';
+import AnimLogo from '../static/logo/anim.svg';
+import MusicLogo from '../static/logo/music.svg';
 
 const DefaultLogo = () => (
-    <svg width="128" height="120" viewBox="0 0 128 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="133" height="133" viewBox="0 0 128 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="Text">
             <path id="Vector" d="M45.4202 33.1307L54.7082 50.9136H44.5141L39.3604 40.1532L35.9058 44.2875V50.857H27.1276V21.181H35.9624V32.9041L44.4575 21.181H54.4816L45.4202 33.1307Z" fill="black"/>
             <path id="Vector_2" d="M85.7434 46.6661C84.7806 48.1386 83.4214 49.3279 81.6658 50.1208C79.9101 50.9136 77.8713 51.3101 75.4927 51.3101H73.6238C71.3018 51.3101 69.263 50.9136 67.4507 50.1208C65.6951 49.3279 64.3359 48.1386 63.3731 46.6661C62.4103 45.1936 61.9006 43.438 61.9006 41.4558V21.181H71.0186V41.3425C71.0186 42.3053 71.3585 43.0982 72.0381 43.6645C72.7177 44.2875 73.5672 44.5707 74.5299 44.5707C75.4927 44.5707 76.3422 44.2875 77.0218 43.6645C77.7014 43.0416 78.0412 42.3053 78.0412 41.3425V21.181H87.1592V41.4558C87.1592 43.438 86.7062 45.1936 85.7434 46.6661Z" fill="black"/>
@@ -36,12 +41,26 @@ const DefaultLogo = () => (
         </g>
     </svg>);
 
-const Logo = () => {
+const Logo = (props) => {
+    const [ activeLogo, setActiveLogo ] = useState(<DefaultLogo />);
+
+    useEffect(() => {
+        if(props.activeArticle && props.modalIsOpen){
+            switch(props.activeArticle.type){
+                case 'anim': setActiveLogo(<AnimLogo/>); break;
+                case 'short': setActiveLogo(<ShortLogo/>); break;
+                case 'ad': setActiveLogo(<AdLogo/>); break;
+                case 'music': setActiveLogo(<MusicLogo/>); break;
+                    default: setActiveLogo(<DefaultLogo/>)
+            }
+        } else {
+            setActiveLogo(<DefaultLogo/>);
+        }
+    }, [props.activeArticle, props.modalIsOpen]);
 
     return (
         <Fragment>
-            <DefaultLogo />
-
+            {activeLogo}
             <style jsx>{`
             #Triangle {
                 
@@ -51,4 +70,11 @@ const Logo = () => {
     )
 }
 
-export default Logo;
+const mapStateToProps = state => {
+    return {
+      activeArticle: state.articles.activeArticle,
+      modalIsOpen:  state.articles.modalIsOpen
+    }
+};
+
+export default connect(mapStateToProps)(Logo);

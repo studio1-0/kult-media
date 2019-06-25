@@ -1,27 +1,30 @@
-import { GET_ARTICLES, SET_ACTIVE_TYPE } from '../types';
+import { SET_ARTICLES, SET_ACTIVE_ARTICLE, SET_MODAL_IS_OPEN } from '../types';
+import sanitize from '../../utils/sanitize';
 
 const initialState = {
-  contents: {
-    ad: null,
-    short: null,
-    anim: null,
-    music: null,
-  },  
+  contents: {},  
   types: {
-    anim: 'ANIM',
-    short: 'SHORT',
-    ad: 'AD',
-    music: 'MUSIC',
+    anim: 'anim',
+    short: 'short',
+    ad: 'ad',
+    music: 'music',
   },
-  activeType: null
+  activeArticle: null,
+  modalIsOpen: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_ARTICLES:
-      return Object.assign({}, state, { contents: action.payload });
-    case SET_ACTIVE_TYPE:
-      return Object.assign({}, state, { activeType: action.payload });
+    case SET_ARTICLES:
+      let result = [];
+      action.payload.map((article) => {
+        result.push(sanitize(article));
+      });
+      return Object.assign({}, state, { contents: result });
+    case SET_ACTIVE_ARTICLE:
+      return Object.assign({}, state, { activeArticle: action.payload });
+    case SET_MODAL_IS_OPEN:
+      return Object.assign({}, state, { modalIsOpen: action.payload });
     default:
       return state;
   }

@@ -1,24 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import ReactPlayer from 'react-player';
 import theme from '../styles/theme';
+import * as articleActions from '../redux/actions/articleActions';
 
 const Modal = props => {
     const [ isArticle, setIsArticle ] = useState(false);
+    const [ modalIsOpen, setModalIsOpen ] = useState(false);
+
+    useEffect(() => {
+        setModalIsOpen(props.isOpen);
+    }, [props.isOpen]);
+
+    const onCloseClick = () => {
+        props.closeModal();
+    }
 
     const playerStyle = {
         filter: 'drop-shadow(0 0 0.75rem grey)'
     };
 
     return (
-        props.isOpen && <div className="modal">
-            <div className="modal-content" onBlur={props.onCloseClick}>
-                <span className="close" onClick={props.onCloseClick}>close</span>
+        modalIsOpen && <div className="modal">
+            <div className="modal-content" onBlur={onCloseClick}>
+                <span className="close" onClick={onCloseClick}>close</span>
                 
                 {!isArticle ?
-                    <div className="content video-mode">
-                        <h1>Le temps des cerises</h1>
+                    <div className={`content video-mode kult${props.article.type}`}>
+                        <h1>{props.article.title.text}</h1>
                         <ReactPlayer
-                            url='https://www.youtube.com/watch?v=WMa_Qsbmzpg'
+                            url={props.article.video.embed_url}
                             playing={false}
                             controls={true}
                             height="540px"
@@ -27,8 +38,8 @@ const Modal = props => {
                         />
                         <div className="director">
                             <img src="https://source.unsplash.com/random/100x100?portrait"></img>
-                            <h2>Jean-Michel Dupont</h2>
-                            <h3>Paris - Motion Designer Freelance</h3>
+                            <h2>{props.article.director.text}</h2>
+                            <h3>{props.article.director.text}</h3>
                         </div>
                     </div>
                     :
@@ -63,6 +74,7 @@ const Modal = props => {
                     flex-direction: column;
                     justify-content: space-between;
                     align-items: flex-start;
+                    position: relative;
                 }
                 .content {
                     width: 100%;
@@ -76,6 +88,20 @@ const Modal = props => {
                     background-repeat: no-repeat;
                     padding: 60px 25vw;
                     margin: 0 0 0 -25px;
+                    transition: all 5s ease;
+                }
+                .kultanim:before {
+                    padding: 50px 25vw;
+                    background-image: ${theme.objects.anim};
+                }
+                .kultad:before {
+                    background-image: ${theme.objects.ad};
+                }
+                .kultshort:before {
+                    background-image: ${theme.objects.short};
+                }
+                .kultmusic:before {
+                    background-image: ${theme.objects.music};
                 }
                 .video-mode:after {
                     content: "";
@@ -88,16 +114,17 @@ const Modal = props => {
                     margin: -180px -115px;
                     z-index: -1;
                 }
-                .anim {
+                .kultanim:after {
                     background-image: ${theme.objects.anim}, ${theme.objects.anim};
                 }
-                .ad {
+                .kultad:after {
+                    padding: 110px 35vw;
                     background-image: ${theme.objects.ad}, ${theme.objects.ad};
                 }
-                .short {
+                .kultshort:after {
                     background-image: ${theme.objects.short}, ${theme.objects.short};
                 }
-                .music {
+                .kultmusic:after {
                     background-image: ${theme.objects.music}, ${theme.objects.music};
                 }
                 span {
@@ -140,6 +167,10 @@ const Modal = props => {
                 }
                 h1 {
                     margin-top: 0;
+                    font-weight: 900;
+                    font-size: 38px;
+                    line-height: 45px;
+                    letter-spacing: 0.1em;
                 }
                 .director {
                     display: flex;
@@ -170,4 +201,17 @@ const Modal = props => {
     )
 }
 
-export default Modal;
+const mapStateToProps = state => {
+    return {
+      article: state.articles.activeArticle,
+      isOpen:  state.articles.modalIsOpen
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        closeModal: () => {dispatch(articleActions.setModalIsOpenAction(false))}
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

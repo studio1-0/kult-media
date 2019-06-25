@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Link from 'next/link';
 import Logo from './logo';
 
-const Header = () => (
+const Header = (props) => (
   <div className="header">
     <Link prefetch href="/">
       <span><Logo /></span>
@@ -20,7 +21,7 @@ const Header = () => (
       }
 
       span:after {
-        content: 'to creativity and beyond';
+        content: ${props.modalIsOpen ? 'to creativity and beyond' : 'to creativity and beyond'};
         position: absolute;
         margin: 35px 0 0 20px;
       }
@@ -28,4 +29,10 @@ const Header = () => (
   </div>
 )
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    modalIsOpen:  state.articles.modalIsOpen
+  }
+};
+
+export default connect(mapStateToProps)(Header);

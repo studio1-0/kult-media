@@ -1,43 +1,29 @@
 import Router from 'next/router';
-import axios from 'axios';
-import { GET_ARTICLES } from '../types';
-import { API } from '../../config';
+import { SET_ARTICLES, SET_ACTIVE_ARTICLE, SET_MODAL_IS_OPEN } from '../types';
+import { apiEndpoint, accessToken } from '../../config';
+import Prismic from 'prismic-javascript';
 
-// register user
-const register = ({ firstname, lastname, mobile_no, email_id, password, confirm_password }, type) => {
-  if (type !== 'register') {
-    throw new Error('Wrong API call!');
-  }
-  return (dispatch) => {
-    axios.post(`${API}/${type}`, {firstname, lastname, mobile_no, email_id, password, confirm_password })
-      .then((response) => {
-        Router.push('/signin');
-      })
-      .catch((err) => {
-        switch (error.response.status) {
-          case 500:
-            alert('Interval server error! Try again!');
-            break;
-          default:
-            alert(error.response.data.meta.message);
-            break;
-        }
-      });
-  };
-};
-
-export function addArticle(payload) {
-  return { type: GET_ARTICLES, payload };
+export function addArticleAction(payload) {
+  return { type: SET_ARTICLES, payload };
 }
 
-export function getArticles() {
+export function getArticlesAction() {
   return (dispatch, getState) => {
-    
+    Prismic.api(apiEndpoint, {accessToken}).then(api => {
+      api.query(Prismic.Predicates.at('document.type', 'video'), { pageSize : 4 })
+        .then(response => {
+          if (response) {
+            dispatch(addArticleAction(response.results));
+          }}
+        );
+    });
   };
 }
 
-export function setActiveTypeAction() {
-  return (dispatch, getState) => {
-    
-  };
+export function setActiveArticleAction(payload) {
+  return { type: SET_ACTIVE_ARTICLE, payload };
+}
+
+export function setModalIsOpenAction(payload) {
+  return { type: SET_MODAL_IS_OPEN, payload };
 }

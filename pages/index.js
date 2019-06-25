@@ -3,41 +3,52 @@ import { connect } from 'react-redux';
 import Card from '../components/card';
 import Modal from '../components/modal';
 import theme from '../styles/theme';
+import * as articleActions from '../redux/actions/articleActions';
 
 
 const Home = (props) => {
-  console.log("REDUX: ", props.articles);
+  const mock = [
+    { 
+      type: 'anim', 
+      video: {
+        thumbnail_url:'https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/c3680581391631.5d050d825ed4b.jpg'
+      }
+    },
+    { 
+      type: 'short', 
+      video: {
+        thumbnail_url:'https://cdn.dribbble.com/users/1322388/screenshots/6647930/fortress.jpg' 
+      }
+    },
+    { 
+      type: 'ad', 
+      video: {
+        thumbnail_url:'https://www.danstapub.com/wp-content/uploads/2017/05/dans-ta-pub-lacoste-timeless-1920x1080.png'
+      }
+    },
+    { 
+      type: 'music', 
+      video: {
+        thumbnail_url:'https://phototrend.fr/wp-content/uploads/2017/09/cilp-orelsan-basique-drone-1-759x500.jpg'
+      }
+    },
+  ];
 
-  const cards = [
-    { type: 'ANIM', preview: 'https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/c3680581391631.5d050d825ed4b.jpg'},
-    { type: 'SHORT', preview: 'https://cdn.dribbble.com/users/1322388/screenshots/6647930/fortress.jpg' },
-    { type: 'AD', preview: 'https://www.danstapub.com/wp-content/uploads/2017/05/dans-ta-pub-lacoste-timeless-1920x1080.png' },
-    { type: 'MUSIC', preview: 'https://phototrend.fr/wp-content/uploads/2017/09/cilp-orelsan-basique-drone-1-759x500.jpg' }
-  ].map(card => {
-    card.key = `card-${card.type}`
-    return card
-  });
+  const [cards, setCards] = useState(mock);
 
-  const articles = [
-    { type: 'ANIM', preview: 'https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/c3680581391631.5d050d825ed4b.jpg', author: 'Charlotte Abramow', intro: "My inspirations before making Angèle’s music videos were really wide…"},
-    { type: 'SHORT', preview: 'https://cdn.dribbble.com/users/1322388/screenshots/6647930/fortress.jpg' },
-    { type: 'AD', preview: 'https://www.danstapub.com/wp-content/uploads/2017/05/dans-ta-pub-lacoste-timeless-1920x1080.png' },
-    { type: 'MUSIC', preview: 'https://phototrend.fr/wp-content/uploads/2017/09/cilp-orelsan-basique-drone-1-759x500.jpg' }
-  ].map(art => {
-    art.key = `card-${art.type}`
-    return art
-  });
+  useEffect(() => {
+    props.getArticles();
+  }, []);
 
-  const [ modalIsOpen, setModalIsOpen ] = useState(false);
+  useEffect(() => {
+    props.articles.contents.length > 0 && setCards(props.articles.contents);
+  }, [props.articles.contents]);
+
   const [ articleIsSelected, setArticleIsSelected ] = useState(false);
   const [ hoveredCard, setHoveredCard ] = useState(null);
 
-  const onCardClick = () => {
-    setModalIsOpen(true);
-  }
-
-  const onCloseClick = () => {
-    setModalIsOpen(false);
+  const onCardClick = (_article) => {
+    props.setActiveVideo(_article);
   }
 
   const mouseOver = (type) => {
@@ -45,52 +56,172 @@ const Home = (props) => {
   }
 
   return (
-    <>
+    <div className="container">
+      <div className="filters">
+        <div className="top">
+          <span>videos</span>
+          <span>articles</span>
+        </div>
+        <div className="bottom">
+          <div className="browse">
+            <span>browse by week</span>
+            <span>browse by day</span>
+          </div>
+          <div className="date">
+            <span>{'<'}</span>
+            <span>june 26</span>
+            <span>{'>'}</span>
+          </div>
+        </div>
+      </div>
       <ul className="cards">
-        {articleIsSelected ? articles.map(({ key, type, preview, author, title }) => (
-          <li key={key} onMouseOver={mouseOver(type)}>
-            <Card article={''}
-              type={type}
-              preview={preview}
+        {articleIsSelected ? cards.map((_article) => (
+          <li key={`article-${_article.type}`} className={`article-${_article.type}`} onMouseOver={mouseOver(type)}>
+            <Card article={_article}
+              type={_article.type}
+              preview={_article.video.thumbnail_url}
               onCardClick={onCardClick}
             />
           </li>
         )) :
-        cards.map(({ key, type, preview }) => (
-          <li key={key}>
-            <Card article={''}
-              type={type}
-              preview={preview}
+        cards.map((_article) => (
+          <li key={`card-${_article.type}`} className={`card-kult${_article.type}`}>
+            <Card article={_article}
+              type={_article.type}
+              preview={_article.video.thumbnail_url}
               onCardClick={onCardClick}
             />
           </li>
         ))}
-
-        <style jsx>{`
+      </ul>
+      <Modal />
+      <style jsx>{`
+          .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+          }
+          .filters {
+            display: flex;
+            height: 140px;
+            margin: 20px 0 5px;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            text-transform: lowercase;
+            position: relative;
+            filter: ${props.articles.modalIsOpen ? 'blur(5px)' : null};
+            font-family: 'Dosis', sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 25px;
+            letter-spacing: 0.04em;
+            color: rgba(51, 51, 51, 0.4);
+          }
+          .filters .top {
+            display: flex;
+            position: relative;
+            justify-content: center;
+          }
+          .filters .top span {
+            display: flex;
+            justify-content: center;
+            padding: 0 25px;
+            text-align: center;
+          }
+          .filters .top span:nth-child(1) {
+            border-right: solid 3px;
+          }
+          .filters span {
+            cursor: pointer;
+          }
+          .filters .top span:before{
+            content: "";
+            position: absolute;
+            height: 48px;
+            width: 48px;
+            background-color: rgba(253, 127, 212, 0.1);
+            border-radius: 50%;
+            top: -10px;
+          }
+          .filters .bottom {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-evenly;
+          }
+          .filters .bottom span {
+            position: relative;
+          }
+          .filters .bottom .browse {
+            display: flex;
+          }
+          .filters .bottom .browse span {
+            display: flex;
+            justify-content: center;
+            padding: 0 25px;
+          }
+          .filters .bottom .browse span:nth-child(1) {
+            border-right: solid 3px;
+          }
+          .filters .bottom .browse span:before {
+            content: "";
+            position: absolute;
+            height: 48px;
+            width: 48px;
+            background-color: rgba(13, 56, 251, 0.1);
+            border-radius: 50%;
+            top: -15px;
+          }
+          .filters .bottom .date span:nth-child(2) {
+            margin: 0 25px;
+          }
           .cards {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-evenly;
-            max-width: 1000px;
             padding: 0;
-            filter: ${modalIsOpen ? 'blur(5px)' : null};
-            opacity: ${modalIsOpen ? '0.1' : '1'};
+            margin: 0;
+            filter: ${props.articles.modalIsOpen ? 'blur(5px)' : null};
+            opacity: ${props.articles.modalIsOpen ? '0.1' : '1'};
             z-index: 0;
           }
           .cards li {
             display: flex;
             flex-direction: column;
-            width: 415px;
-            height: 350px;
+            width: 285px;
+            height: 315px;
             margin: 15px;
             border-radius: 8px;
             transition: all .2s ease-in-out; 
             z-index: 0;
           }
+          .cards li:before, .cards li:after {
+            animation: sheen 1s forwards;
+            transition: all 1s ease-in-out; 
+          }
+          .cards li:nth-child(2) {
+            height: 285px;
+            width: 490px;
+          }
+          .cards li:nth-child(3) {
+            height: 340px;
+            width: 610px;
+          }
+          .cards li:nth-child(4) {
+            width: 305px;
+            height: 370px;
+          }
           .cards li:hover {
             cursor: pointer;
             transform: scale(1.05);
+          }
+          .cards li:before {
+            background-size: 10px, 10px;
+            background-position: right 20px, left top;
+            transition: all 2s ease-in-out;
           }
           .cards li:hover:before {
             content: "";
@@ -101,17 +232,17 @@ const Home = (props) => {
             padding: 50px 175px;
             margin: -25px;
           }
-          .cards li:nth-child(1):hover:before {
+          .cards .card-kultmusic:hover:before {
+            background-image: ${theme.objects.music}, ${theme.objects.music};
+          }
+          .cards .card-kultad:hover:before {
+            background-image: ${theme.objects.ad}, ${theme.objects.ad};
+          }
+          .cards .card-kultshort:hover:before {
+            background-image: ${theme.objects.short}, ${theme.objects.short};
+          }
+          .cards .card-kultanim:hover:before {
             background-image: ${theme.objects.anim}, ${theme.objects.anim};
-          }
-          .cards li:nth-child(2):hover:before {
-              background-image: ${theme.objects.ad}, ${theme.objects.ad};
-          }
-          .cards li:nth-child(3):hover:before {
-              background-image: ${theme.objects.short}, ${theme.objects.short};
-          }
-          .cards li:nth-child(4):hover:before {
-              background-image: ${theme.objects.music}, ${theme.objects.music};
           }
           .cards li:hover:after {
             content: "";
@@ -119,40 +250,32 @@ const Home = (props) => {
             background-size: 50px, 100px;
             background-position: left bottom, right bottom;
             background-repeat: no-repeat;
-            padding: 175px 210px;
+            padding: 170px 185px;
             margin: 0 0 0 -25px;
           }
-          .cards li:nth-child(1):hover:after {
-            padding: 185px 250px;
-            background-image: ${theme.objects.anim}, ${theme.objects.anim};
-          }
           .cards li:nth-child(2):hover:after {
-            background-image: ${theme.objects.ad}, ${theme.objects.ad};
+            padding: 160px 285px;
           }
           .cards li:nth-child(3):hover:after {
-            padding: 220px 230px;
-            background-image: ${theme.objects.short}, ${theme.objects.short};
+            padding: 200px 345px;
           }
           .cards li:nth-child(4):hover:after {
-            padding: 170px 270px;
+            padding: 200px 220px;
+          }
+          .cards .card-kultmusic:hover:after {
             background-image: ${theme.objects.music}, ${theme.objects.music};
           }
-          .cards li:nth-child(2) {
-            height: 420px;
-            width: 290px;
+          .cards .card-kultad:hover:after {
+            background-image: ${theme.objects.ad}, ${theme.objects.ad};
           }
-          .cards li:nth-child(3) {
-            height: 420px;
-            width: 350px;
+          .cards .card-kultshort:hover:after {
+            background-image: ${theme.objects.short}, ${theme.objects.short};
           }
-          .cards li:nth-child(4) {
-            width: 450px;
-            height: 300px;
+          .cards .card-kultanim:hover:after {
+            background-image: ${theme.objects.anim}, ${theme.objects.anim};
           }
         `}</style>
-      </ul>
-      <Modal isOpen={modalIsOpen} onCloseClick={onCloseClick} />
-    </>
+    </div>
   )
 }
 
@@ -162,4 +285,14 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = dispatch => {
+  return {
+    getArticles: () => { dispatch(articleActions.getArticlesAction()) },
+    setActiveVideo: article => {
+      dispatch(articleActions.setActiveArticleAction(article));
+      dispatch(articleActions.setModalIsOpenAction(true)); 
+    },
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
