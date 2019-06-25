@@ -132,11 +132,13 @@ const Home = (props) => {
           }
           .filters .top span:nth-child(1) {
             border-right: solid 3px;
+            font-weight: bold;
+            color: black;
           }
           .filters span {
             cursor: pointer;
           }
-          .filters .top span:before{
+          .filters .top span:nth-child(1):before{
             content: "";
             position: absolute;
             height: 48px;
@@ -165,7 +167,11 @@ const Home = (props) => {
           .filters .bottom .browse span:nth-child(1) {
             border-right: solid 3px;
           }
-          .filters .bottom .browse span:before {
+          .filters .bottom .browse span:nth-child(2) {
+            font-weight: bold;
+            color: black;
+          }
+          .filters .bottom .browse span:nth-child(2):before {
             content: "";
             position: absolute;
             height: 48px;
@@ -176,6 +182,8 @@ const Home = (props) => {
           }
           .filters .bottom .date span:nth-child(2) {
             margin: 0 25px;
+            font-weight: bold;
+            color: black;
           }
           .cards {
             display: flex;

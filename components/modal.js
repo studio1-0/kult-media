@@ -27,7 +27,7 @@ const Modal = props => {
                 
                 {!isArticle ?
                     <div className={`content video-mode kult${props.article.type}`}>
-                        <h1>{props.article.title.text}</h1>
+                        <h1 className="title">{props.article.title.text}</h1>
                         <ReactPlayer
                             url={props.article.video.embed_url}
                             playing={false}
@@ -39,7 +39,9 @@ const Modal = props => {
                         <div className="director">
                             <img src="https://source.unsplash.com/random/100x100?portrait"></img>
                             <h2>{props.article.director.text}</h2>
-                            <h3>{props.article.director.text}</h3>
+                            <h3>Paris, France</h3>
+                            <a href="/">Contact</a>
+                            <a href="/">Portfolio</a>
                         </div>
                     </div>
                     :
