@@ -9,7 +9,7 @@
   "dependencies": {
     "@svgr/webpack": "^4.3.0",
     "js-cookie": "^2.2.0",
-    "next": "8.1.0",
+    "next": "13.1.1",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "prismic-javascript": "^2.0.3",
     "prismic-reactjs": "^1.0.0",
